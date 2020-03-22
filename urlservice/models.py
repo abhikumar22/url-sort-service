@@ -1,0 +1,6 @@
+from django.db import models
+
+class Urlsortner(models.Model):
+    full_url = models.CharField(max_length=100)
+    sort_url = models.CharField(max_length=30)
+    no_of_clicks = models.CharField(max_length=30)
