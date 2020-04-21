@@ -50,12 +50,26 @@ class GetShortUrl(APIView):
             N = 5
             random_str = ''.join(random.choices(string.ascii_uppercase +
                              string.digits, k = N)) 
-            url_sort.sort_url = random_str
-            url_sort.save()
-            data = {
-            "short_url" : random_str,
-            "status":status.HTTP_200_OK
-            }
+
+            # checking if the pair is present in db
+            new_model = Urlsortner.objects.filter(sort_url=random_str,full_url=curr_url)
+            # print("****new_model****",new_model.query)
+            # print("****DatA****",new_model.count())
+
+            # if Combination present
+            if new_model.count() > 0:
+                data = {
+                "short_url" : new_model[0].sort_url,
+                "status":status.HTTP_200_OK
+                } 
+        
+            else :
+                url_sort.sort_url = random_str
+                url_sort.save()
+                data = {
+                "short_url" : random_str,
+                "status":status.HTTP_200_OK
+                }
 
         
         return Response(data, status=status.HTTP_200_OK)
