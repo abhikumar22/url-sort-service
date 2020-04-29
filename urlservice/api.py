@@ -78,11 +78,16 @@ class GetShortUrl(APIView):
 
 class GetIpInfo(APIView):       
     def get(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
         hostname = socket.gethostname()    
         IPAddr = socket.gethostbyname(hostname)    
         print("Your Computer Name is:" + hostname)    
         print("Your Computer IP Address is:" + IPAddr)  
 
-        html = "<html><body> IP Address = "+IPAddr+"<br>Hostname = "+hostname+"</body></html>"
+        html = "<html><body> IP Address = "+IPAddr+"..."+ip+"<br>Hostname = "+hostname+"</body></html>"
         return HttpResponse(html)
 
