@@ -7,6 +7,8 @@ from decimal import Decimal
 from urlservice.models import Urlsortner;
 import string 
 import random
+import socket    
+from django.http import HttpResponse 
 
 class GetFullUrl(APIView):
     def post(self, request):
@@ -73,4 +75,14 @@ class GetShortUrl(APIView):
 
         
         return Response(data, status=status.HTTP_200_OK)
+
+class GetIpInfo(APIView):       
+    def get(self, request):
+        hostname = socket.gethostname()    
+        IPAddr = socket.gethostbyname(hostname)    
+        print("Your Computer Name is:" + hostname)    
+        print("Your Computer IP Address is:" + IPAddr)  
+
+        html = "<html><body> IP Address = "+IPAddr+"<br>Hostname = "+hostname+"</body></html>"
+        return HttpResponse(html)
 

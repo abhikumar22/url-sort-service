@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls import url
 
-from urlservice.api import GetShortUrl,GetFullUrl
+from urlservice.api import GetShortUrl,GetFullUrl,GetIpInfo
 # ,getData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url('^GetShortUrl$', GetShortUrl.as_view()),
     url('^GetFullUrl$', GetFullUrl.as_view()),
+    url('^GetIpInfo$', GetIpInfo.as_view()),
+
 
 
 ]
